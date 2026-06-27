@@ -166,7 +166,7 @@ fun AcRemoteScreen(
                 )
             }
 
-            Divider(color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.1f))
+            HorizontalDivider(color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.1f))
 
             // Row 2: Temperature Control
             TemperatureControlRow(
@@ -186,7 +186,7 @@ fun AcRemoteScreen(
                 }
             )
 
-            Divider(color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.1f))
+            HorizontalDivider(color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.1f))
 
             // Row 3: Operation Modes (Cool, Dry, Fan, Heat, Auto)
             ModeSelectorPanel(
@@ -200,7 +200,7 @@ fun AcRemoteScreen(
                 }
             )
 
-            Divider(color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.1f))
+            HorizontalDivider(color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.1f))
 
             // Row 4: Fan Speed and Swing Control
             Row(
@@ -236,7 +236,7 @@ fun AcRemoteScreen(
                 }
             }
 
-            Divider(color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.1f))
+            HorizontalDivider(color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.1f))
 
             // Row 5: Auxiliary controls (Turbo, Sleep, Timer)
             Row(
