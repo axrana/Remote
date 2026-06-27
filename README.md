@@ -99,3 +99,17 @@ gradle assembleDebug
 ```
 The output APK will be generated at:
 `app/build/outputs/apk/debug/app-debug.apk`
+
+---
+
+## 🤖 GitHub Actions CI/CD (Auto-Build APK)
+
+This repository includes a pre-configured **GitHub Actions workflow** to build your APK automatically on every push or pull request to the `main` or `master` branches.
+
+### Downloading Built APKs from GitHub
+1. Push this project to your GitHub repository.
+2. Navigate to the **Actions** tab in your GitHub repository.
+3. Click on the latest workflow run (e.g. `Build Android APK`).
+4. Scroll down to the **Artifacts** section at the bottom.
+5. Download **`o-general-ac-remote-debug`** (a zip file containing the ready-to-install `app-debug.apk`).
+
