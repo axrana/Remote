@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <!-- Glowing IR Wave Arcs (top, signaling infrared burst) -->
+    <!-- Wave 1 (Inner Arc) -->
+    <path
+        android:fillColor="#00000000"
+        android:strokeColor="#00FFD1"
+        android:strokeWidth="2.5"
+        android:strokeLineCap="round"
+        android:pathData="M 46,16 A 10,10 0 0,1 62,16" />
+
+    <!-- Wave 2 (Outer Arc) -->
+    <path
+        android:fillColor="#00000000"
+        android:strokeColor="#00FFD1"
+        android:strokeWidth="2.5"
+        android:strokeLineCap="round"
+        android:pathData="M 41,11 A 17,17 0 0,1 67,11" />
+
+    <!-- IR Transmitter Diode (Top emitter) -->
+    <path
+        android:fillColor="#E04F2E"
+        android:pathData="M 52,20 L 56,20 L 55,23 L 53,23 Z" />
+
+    <!-- Sleek Remote Control Casing (Rounded Vertical Rectangle) -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M 38,28 C 38,25 40,23 43,23 L 65,23 C 68,23 70,25 70,28 L 70,82 C 70,85 68,87 65,87 L 43,87 C 40,87 38,85 38,82 Z" />
+
+    <!-- Simulated Remote Control LCD Glass Screen (Dark Teal) -->
+    <path
+        android:fillColor="#0F1E1B"
+        android:pathData="M 42,28 C 42,27 43,26 44,26 L 64,26 C 65,26 66,27 66,28 L 66,45 C 66,46 65,47 64,47 L 44,47 C 43,47 42,46 42,45 Z" />
+
+    <!-- Small Glowing LCD Temperature Characters inside the icon display (Simulated "24") -->
+    <path
+        android:fillColor="#00FFD1"
+        android:pathData="M 51,33 L 51,34 L 49,34 C 48.4,34 48,34.4 48,35 C 48,35.6 48.4,36 49,36 L 52,36 C 52.6,36 53,35.6 53,35 L 53,31 C 53,30.4 52.6,30 52,30 L 49,30 C 48.4,30 48,30.4 48,31 L 48,33 C 48,33.6 48.4,34 49,34 L 51,34 L 51,33 Z M 56,30 L 59,30 C 59.6,30 60,30.4 60,31 L 60,36 C 60,36.6 59.6,37 59,37 L 56,37 C 55.4,37 55,36.6 55,36 L 55,31 C 55,30.4 55.4,30 56,30 Z M 57,32 L 57,35 L 58,35 L 58,32 Z" />
+
+    <!-- High-Contrast Power Button (Vibrant Orange-Red Circular Button) -->
+    <path
+        android:fillColor="#E04F2E"
+        android:pathData="M 54,58 A 5.5,5.5 0 1,0 54,69 A 5.5,5.5 0 1,0 54,58 Z" />
+
+    <!-- Grid of Keypads (White chassis accents / Raised button paths) -->
+    <!-- Cool Button (Left) -->
+    <path
+        android:fillColor="#262A34"
+        android:pathData="M 44,52 C 44,51 45,50 46,50 L 50,50 C 51,50 52,51 52,52 L 52,55 C 52,56 51,57 50,57 L 46,57 C 45,57 44,56 44,55 Z" />
+
+    <!-- Heat Button (Right) -->
+    <path
+        android:fillColor="#262A34"
+        android:pathData="M 56,52 C 56,51 57,50 58,50 L 62,50 C 63,50 64,51 64,52 L 64,55 C 64,56 63,57 62,57 L 58,57 C 57,57 56,56 56,55 Z" />
+
+    <!-- Fan Button (Bottom Left) -->
+    <path
+        android:fillColor="#262A34"
+        android:pathData="M 44,72 C 44,71 45,70 46,70 L 50,70 C 51,70 52,71 52,72 L 52,75 C 52,76 51,77 50,77 L 46,77 C 45,77 44,76 44,75 Z" />
+
+    <!-- Swing Button (Bottom Right) -->
+    <path
+        android:fillColor="#262A34"
+        android:pathData="M 56,72 C 56,71 57,70 58,70 L 62,70 C 63,70 64,71 64,72 L 64,75 C 64,76 63,77 62,77 L 58,77 C 57,77 56,76 56,75 Z" />
+</vector>

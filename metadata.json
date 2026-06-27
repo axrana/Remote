@@ -1,0 +1,6 @@
+{
+  "name": "O General AC Remote",
+  "description": "An ad-free, secure, and offline IR remote control application for General, O General, and Fujitsu General air conditioners.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
