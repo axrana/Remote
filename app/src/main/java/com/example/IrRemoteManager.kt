@@ -28,6 +28,16 @@ class IrRemoteManager(private val context: Context) {
     private val _transmissionEvents = MutableSharedFlow<String>()
     val transmissionEvents: SharedFlow<String> = _transmissionEvents.asSharedFlow()
 
+    // Stateful protocol and state tracking
+    private val protocol = GeneralAcProtocol(context)
+    private var currentState = AcState(
+        power = false,
+        temperature = 24,
+        mode = AcMode.COOL,
+        fan = FanSpeed.AUTO,
+        swing = false
+    )
+
     /**
      * Checks if the device has a physical infrared transmitter.
      */
@@ -48,7 +58,7 @@ class IrRemoteManager(private val context: Context) {
      * Transmits a raw pattern at a specific carrier frequency.
      * All transmission executes asynchronously on [Dispatchers.IO] to avoid UI stutters.
      */
-    fun transmit(pattern: IntArray, carrierFrequency: Int = GeneralAcIrCodes.CARRIER_FREQUENCY_HZ) {
+    fun transmit(pattern: IntArray, carrierFrequency: Int = GeneralAcProtocol.CARRIER_FREQUENCY_HZ) {
         ioScope.launch {
             if (pattern.isEmpty()) {
                 Log.w(tag, "Attempted to transmit an empty pulse array.")
@@ -73,18 +83,28 @@ class IrRemoteManager(private val context: Context) {
     }
 
     /**
+     * Helper to transmit the current state.
+     */
+    private fun transmitCurrentState() {
+        val packet = protocol.buildPacket(currentState)
+        val pulses = protocol.encodeBytes(packet)
+        transmit(pulses)
+    }
+
+    /**
      * Sends the Power ON/OFF command.
      */
     fun sendPower() {
-        transmit(GeneralAcIrCodes.POWER)
+        currentState = currentState.copy(power = !currentState.power)
+        transmitCurrentState()
     }
 
     /**
      * Sends the Temperature set command.
      */
     fun sendTemperature(temp: Int) {
-        val pattern = GeneralAcIrCodes.getTempCode(temp)
-        transmit(pattern)
+        currentState = currentState.copy(temperature = temp)
+        transmitCurrentState()
     }
 
     /**
@@ -92,15 +112,16 @@ class IrRemoteManager(private val context: Context) {
      * Accepted values: "Auto", "Cool", "Dry", "Fan", "Heat"
      */
     fun sendMode(mode: String) {
-        val pattern = when (mode.lowercase()) {
-            "auto" -> GeneralAcIrCodes.MODE_AUTO
-            "cool" -> GeneralAcIrCodes.MODE_COOL
-            "dry" -> GeneralAcIrCodes.MODE_DRY
-            "fan" -> GeneralAcIrCodes.MODE_FAN
-            "heat" -> GeneralAcIrCodes.MODE_HEAT
-            else -> GeneralAcIrCodes.MODE_COOL
+        val parsedMode = when (mode.lowercase()) {
+            "auto" -> AcMode.AUTO
+            "cool" -> AcMode.COOL
+            "dry" -> AcMode.DRY
+            "fan" -> AcMode.FAN
+            "heat" -> AcMode.HEAT
+            else -> AcMode.COOL
         }
-        transmit(pattern)
+        currentState = currentState.copy(mode = parsedMode)
+        transmitCurrentState()
     }
 
     /**
@@ -108,42 +129,46 @@ class IrRemoteManager(private val context: Context) {
      * Accepted values: "Auto", "Low", "Medium", "High"
      */
     fun sendFan(speed: String) {
-        val pattern = when (speed.lowercase()) {
-            "auto" -> GeneralAcIrCodes.FAN_AUTO
-            "low" -> GeneralAcIrCodes.FAN_LOW
-            "medium" -> GeneralAcIrCodes.FAN_MEDIUM
-            "high" -> GeneralAcIrCodes.FAN_HIGH
-            else -> GeneralAcIrCodes.FAN_AUTO
+        val parsedSpeed = when (speed.lowercase()) {
+            "auto" -> FanSpeed.AUTO
+            "low" -> FanSpeed.LOW
+            "medium" -> FanSpeed.MEDIUM
+            "high" -> FanSpeed.HIGH
+            "quiet" -> FanSpeed.QUIET
+            else -> FanSpeed.AUTO
         }
-        transmit(pattern)
+        currentState = currentState.copy(fan = parsedSpeed)
+        transmitCurrentState()
     }
 
     /**
      * Sends the Swing toggle command.
      */
     fun sendSwing(enable: Boolean) {
-        val pattern = if (enable) GeneralAcIrCodes.SWING_ON else GeneralAcIrCodes.SWING_OFF
-        transmit(pattern)
+        currentState = currentState.copy(swing = enable)
+        transmitCurrentState()
     }
 
     /**
      * Sends the Turbo boost command.
      */
     fun sendTurbo() {
-        transmit(GeneralAcIrCodes.TURBO)
+        currentState = currentState.copy(fan = FanSpeed.HIGH, temperature = 18)
+        transmitCurrentState()
     }
 
     /**
      * Sends the Sleep mode command.
      */
     fun sendSleep() {
-        transmit(GeneralAcIrCodes.SLEEP)
+        currentState = currentState.copy(fan = FanSpeed.QUIET)
+        transmitCurrentState()
     }
     
     /**
      * Sends the Timer command.
      */
     fun sendTimer() {
-        transmit(GeneralAcIrCodes.TIMER)
+        transmitCurrentState()
     }
 }

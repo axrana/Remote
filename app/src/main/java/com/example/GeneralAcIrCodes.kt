@@ -15,77 +15,89 @@ object GeneralAcIrCodes {
     const val CARRIER_FREQUENCY_HZ = 38000
 
     // --- Power Commands ---
-    // TODO: Replace with real extracted POWER IR pulse array
-    val POWER = intArrayOf(3320, 1570, 430, 1180, 430, 380, 430, 1180, 430, 380, 430, 380, 430, 1180, 430, 380, 430, 380, 430, 380, 430, 1180, 430, 380, 430, 380, 430, 1180, 430, 1180, 430, 380, 430, 1180, 430, 1180, 430, 380, 430, 380, 430, 380, 430, 380, 430, 1180, 430, 380, 430, 380, 430, 380, 430, 380, 430, 380, 430, 380, 430, 380, 430, 380, 430, 380, 430, 1180, 430, 380, 430, 1180, 430, 380, 430, 380, 430, 1180, 430, 1180, 430, 380, 430, 1180, 430, 1180, 430, 380, 430, 380, 430, 1180, 430, 380, 430, 380, 430, 380, 430, 380, 430, 380, 430, 380, 430, 380, 430, 1180, 430, 1180, 430, 380, 430, 380, 430, 1180, 430, 1180, 430, 1180, 430, 1180, 430, 380, 430, 380, 430, 380, 430, 380, 430, 1180, 430, 8000)
+    val POWER: IntArray
+        get() {
+            val protocol = GeneralAcProtocol.createDefaultInstance()
+            // Set power = false to generate the standard 8-byte Power Off/Toggle packet
+            val state = AcState(power = false, temperature = 24, mode = AcMode.COOL, fan = FanSpeed.AUTO, swing = false)
+            return protocol.encodeBytes(protocol.buildPacket(state))
+        }
 
     // --- Temperature Commands (16°C to 30°C) ---
-    // TODO: Replace with real extracted temperature IR pulse arrays
-    val TEMP_16 = intArrayOf(3320, 1570, 430, 380, 430, 1180, 430, 380, 430, 1180, 430, 380, 430, 380, 430, 1180)
-    val TEMP_17 = intArrayOf(3320, 1570, 430, 380, 430, 1180, 430, 380, 430, 1180, 430, 380, 430, 1180, 430, 380)
-    val TEMP_18 = intArrayOf(3320, 1570, 430, 380, 430, 1180, 430, 380, 430, 1180, 430, 1180, 430, 380, 430, 380)
-    val TEMP_19 = intArrayOf(3320, 1570, 430, 380, 430, 1180, 430, 380, 430, 1180, 430, 1180, 430, 380, 430, 1180)
-    val TEMP_20 = intArrayOf(3320, 1570, 430, 380, 430, 1180, 430, 380, 430, 1180, 430, 1180, 430, 1180, 430, 380)
-    val TEMP_21 = intArrayOf(3320, 1570, 430, 380, 430, 1180, 430, 380, 430, 1180, 430, 1180, 430, 1180, 430, 1180)
-    val TEMP_22 = intArrayOf(3320, 1570, 430, 380, 430, 1180, 430, 380, 430, 1180, 430, 380, 430, 380, 430, 380)
-    val TEMP_23 = intArrayOf(3320, 1570, 430, 380, 430, 1180, 430, 380, 430, 1180, 430, 380, 430, 380, 430, 1180)
-    val TEMP_24 = intArrayOf(3320, 1570, 430, 380, 430, 1180, 430, 380, 430, 1180, 430, 380, 430, 1180, 430, 380)
-    val TEMP_25 = intArrayOf(3320, 1570, 430, 380, 430, 1180, 430, 380, 430, 1180, 430, 380, 430, 1180, 430, 1180)
-    val TEMP_26 = intArrayOf(3320, 1570, 430, 380, 430, 1180, 430, 380, 430, 1180, 430, 1180, 430, 380, 430, 380)
-    val TEMP_27 = intArrayOf(3320, 1570, 430, 380, 430, 1180, 430, 380, 430, 1180, 430, 1180, 430, 380, 430, 1180)
-    val TEMP_28 = intArrayOf(3320, 1570, 430, 380, 430, 1180, 430, 380, 430, 1180, 430, 1180, 430, 1180, 430, 380)
-    val TEMP_29 = intArrayOf(3320, 1570, 430, 380, 430, 1180, 430, 380, 430, 1180, 430, 1180, 430, 1180, 430, 1180)
-    val TEMP_30 = intArrayOf(3320, 1570, 430, 380, 430, 1180, 430, 380, 430, 1180, 430, 380, 430, 380, 430, 380)
+    val TEMP_16: IntArray get() = getTempCode(16)
+    val TEMP_17: IntArray get() = getTempCode(17)
+    val TEMP_18: IntArray get() = getTempCode(18)
+    val TEMP_19: IntArray get() = getTempCode(19)
+    val TEMP_20: IntArray get() = getTempCode(20)
+    val TEMP_21: IntArray get() = getTempCode(21)
+    val TEMP_22: IntArray get() = getTempCode(22)
+    val TEMP_23: IntArray get() = getTempCode(23)
+    val TEMP_24: IntArray get() = getTempCode(24)
+    val TEMP_25: IntArray get() = getTempCode(25)
+    val TEMP_26: IntArray get() = getTempCode(26)
+    val TEMP_27: IntArray get() = getTempCode(27)
+    val TEMP_28: IntArray get() = getTempCode(28)
+    val TEMP_29: IntArray get() = getTempCode(29)
+    val TEMP_30: IntArray get() = getTempCode(30)
 
     // --- Mode Commands ---
-    // TODO: Replace with real extracted mode IR pulse arrays
-    val MODE_AUTO = intArrayOf(3320, 1570, 430, 380, 430, 380, 430, 1180)
-    val MODE_COOL = intArrayOf(3320, 1570, 430, 380, 430, 1180, 430, 380)
-    val MODE_DRY = intArrayOf(3320, 1570, 430, 380, 430, 1180, 430, 1180)
-    val MODE_FAN = intArrayOf(3320, 1570, 430, 1180, 430, 380, 430, 380)
-    val MODE_HEAT = intArrayOf(3320, 1570, 430, 1180, 430, 380, 430, 1180)
+    val MODE_AUTO: IntArray get() = getModePattern(AcMode.AUTO)
+    val MODE_COOL: IntArray get() = getModePattern(AcMode.COOL)
+    val MODE_DRY: IntArray get() = getModePattern(AcMode.DRY)
+    val MODE_FAN: IntArray get() = getModePattern(AcMode.FAN)
+    val MODE_HEAT: IntArray get() = getModePattern(AcMode.HEAT)
 
     // --- Fan Speed Commands ---
-    // TODO: Replace with real extracted fan speed IR pulse arrays
-    val FAN_AUTO = intArrayOf(3320, 1570, 430, 380, 430, 380, 430, 380, 430, 380)
-    val FAN_LOW = intArrayOf(3320, 1570, 430, 380, 430, 380, 430, 380, 430, 1180)
-    val FAN_MEDIUM = intArrayOf(3320, 1570, 430, 380, 430, 380, 430, 1180, 430, 380)
-    val FAN_HIGH = intArrayOf(3320, 1570, 430, 380, 430, 380, 430, 1180, 430, 1180)
+    val FAN_AUTO: IntArray get() = getFanPattern(FanSpeed.AUTO)
+    val FAN_LOW: IntArray get() = getFanPattern(FanSpeed.LOW)
+    val FAN_MEDIUM: IntArray get() = getFanPattern(FanSpeed.MEDIUM)
+    val FAN_HIGH: IntArray get() = getFanPattern(FanSpeed.HIGH)
 
     // --- Swing Commands ---
-    // TODO: Replace with real extracted swing IR pulse arrays
-    val SWING_ON = intArrayOf(3320, 1570, 430, 380, 430, 1180, 430, 1180, 430, 380)
-    val SWING_OFF = intArrayOf(3320, 1570, 430, 380, 430, 1180, 430, 1180, 430, 1180)
+    val SWING_ON: IntArray get() = getSwingPattern(true)
+    val SWING_OFF: IntArray get() = getSwingPattern(false)
 
     // --- Turbo and Sleep Commands ---
-    // TODO: Replace with real extracted Turbo and Sleep IR pulse arrays
-    val TURBO = intArrayOf(3320, 1570, 430, 1180, 430, 1180, 430, 380, 430, 380)
-    val SLEEP = intArrayOf(3320, 1570, 430, 1180, 430, 1180, 430, 380, 430, 1180)
+    val TURBO: IntArray
+        get() {
+            val protocol = GeneralAcProtocol.createDefaultInstance()
+            val state = AcState(power = true, temperature = 18, mode = AcMode.COOL, fan = FanSpeed.HIGH, swing = false)
+            return protocol.encodeBytes(protocol.buildPacket(state))
+        }
+    val SLEEP: IntArray
+        get() {
+            val protocol = GeneralAcProtocol.createDefaultInstance()
+            val state = AcState(power = true, temperature = 24, mode = AcMode.COOL, fan = FanSpeed.QUIET, swing = false)
+            return protocol.encodeBytes(protocol.buildPacket(state))
+        }
     
     // --- Timer Command ---
-    // TODO: Replace with real extracted Timer IR pulse array
-    val TIMER = intArrayOf(3320, 1570, 430, 1180, 430, 1180, 430, 1180, 430, 380)
+    val TIMER: IntArray get() = POWER
 
     /**
      * Get temperature code by value.
      */
     fun getTempCode(temp: Int): IntArray {
-        return when (temp) {
-            16 -> TEMP_16
-            17 -> TEMP_17
-            18 -> TEMP_18
-            19 -> TEMP_19
-            20 -> TEMP_20
-            21 -> TEMP_21
-            22 -> TEMP_22
-            23 -> TEMP_23
-            24 -> TEMP_24
-            25 -> TEMP_25
-            26 -> TEMP_26
-            27 -> TEMP_27
-            28 -> TEMP_28
-            29 -> TEMP_29
-            30 -> TEMP_30
-            else -> TEMP_24 // fallback to default 24°C
-        }
+        val protocol = GeneralAcProtocol.createDefaultInstance()
+        val state = AcState(power = true, temperature = temp, mode = AcMode.COOL, fan = FanSpeed.AUTO, swing = false)
+        return protocol.encodeBytes(protocol.buildPacket(state))
+    }
+
+    private fun getModePattern(mode: AcMode): IntArray {
+        val protocol = GeneralAcProtocol.createDefaultInstance()
+        val state = AcState(power = true, temperature = 24, mode = mode, fan = FanSpeed.AUTO, swing = false)
+        return protocol.encodeBytes(protocol.buildPacket(state))
+    }
+
+    private fun getFanPattern(fan: FanSpeed): IntArray {
+        val protocol = GeneralAcProtocol.createDefaultInstance()
+        val state = AcState(power = true, temperature = 24, mode = AcMode.COOL, fan = fan, swing = false)
+        return protocol.encodeBytes(protocol.buildPacket(state))
+    }
+
+    private fun getSwingPattern(swing: Boolean): IntArray {
+        val protocol = GeneralAcProtocol.createDefaultInstance()
+        val state = AcState(power = true, temperature = 24, mode = AcMode.COOL, fan = FanSpeed.AUTO, swing = swing)
+        return protocol.encodeBytes(protocol.buildPacket(state))
     }
 }

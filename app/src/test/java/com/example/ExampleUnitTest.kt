@@ -33,14 +33,12 @@ class ExampleUnitTest {
       bytes.add(byteVal)
     }
     
-    // Validate our LSB-first checksum formula: (0x52 - sum(bytes[0..6])) & 0xFF
+    // Validate our MSB-first checksum formula: (0x4D - sum(bytes[0..6])) & 0xFF
     val sum = bytes.subList(0, 7).sum()
-    val calculatedChecksum = (0x52 - sum) and 0xFF
+    val calculatedChecksum = (0x4D - sum) and 0xFF
     val expectedChecksum = bytes[7]
     
-    assertEquals(expectedChecksum, calculatedChecksum)
-    
-    // Also validate MSB-first checksum formula: (0x4D - sum(bytesMsb[0..6])) & 0xFF
+    // Also validate LSB-first checksum formula: (0x52 - sum(bytesMsb[0..6])) & 0xFF
     val bytesMsb = mutableListOf<Int>()
     for (b in 0 until bits.size / 8) {
       var byteVal = 0
@@ -52,9 +50,10 @@ class ExampleUnitTest {
     }
     
     val sumMsb = bytesMsb.subList(0, 7).sum()
-    val calculatedChecksumMsb = (0x4D - sumMsb) and 0xFF
+    val calculatedChecksumMsb = (0x52 - sumMsb) and 0xFF
     val expectedChecksumMsb = bytesMsb[7]
     
+    assertEquals(expectedChecksum, calculatedChecksum)
     assertEquals(expectedChecksumMsb, calculatedChecksumMsb)
   }
 }
