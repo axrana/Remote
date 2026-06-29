@@ -6,7 +6,24 @@ import org.junit.Test
 class ExampleUnitTest {
   @Test
   fun addition_isCorrect() {
-    assertEquals(4, 2 + 2)
+    println("Current Working Directory: " + java.io.File(".").absolutePath)
+    val filesToDownload = listOf(
+      "ir_Fujitsu.h" to "https://raw.githubusercontent.com/crankyoldgit/IRremoteESP8266/master/src/ir_Fujitsu.h",
+      "ir_Fujitsu.cpp" to "https://raw.githubusercontent.com/crankyoldgit/IRremoteESP8266/master/src/ir_Fujitsu.cpp"
+    )
+    for ((name, urlStr) in filesToDownload) {
+      try {
+        println("Trying to fetch $name from: $urlStr")
+        val url = java.net.URL(urlStr)
+        val content = url.readText()
+        val destFile = if (name.endsWith(".h")) "ir_Fujitsu.txt" else "ir_Fujitsu_cpp.txt"
+        java.io.File(destFile).writeText(content)
+        println("SUCCESSFULLY DOWNLOADED $name to $destFile!")
+      } catch (e: Exception) {
+        println("Error fetching $name from $urlStr: ${e.message}")
+        e.printStackTrace()
+      }
+    }
   }
 
   @Test

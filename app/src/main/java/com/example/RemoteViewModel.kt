@@ -20,6 +20,14 @@ class RemoteViewModel(application: Application) : AndroidViewModel(application) 
     private val dataStore = RemoteSettingsDataStore(application)
     val irRemoteManager = IrRemoteManager(application)
 
+    init {
+        viewModelScope.launch {
+            dataStore.settingsFlow.collect { settings ->
+                irRemoteManager.setModel(settings.model)
+            }
+        }
+    }
+
     // Collect settings from DataStore and convert to a hot StateFlow for the UI
     val uiState: StateFlow<RemoteSettingsDataStore.AcSettings> = dataStore.settingsFlow
         .stateIn(
@@ -33,7 +41,8 @@ class RemoteViewModel(application: Application) : AndroidViewModel(application) 
                 swingState = false,
                 turboState = false,
                 sleepState = false,
-                timerHours = 0
+                timerHours = 0,
+                model = "ARRAH2E"
             )
         )
 
@@ -158,7 +167,17 @@ class RemoteViewModel(application: Application) : AndroidViewModel(application) 
         val next = if (current >= 12) 0 else current + 1
         viewModelScope.launch {
             dataStore.saveTimerHours(next)
-            irRemoteManager.sendTimer()
+            irRemoteManager.sendTimer(next)
+        }
+    }
+
+    /**
+     * Sets the active remote model.
+     */
+    fun setModel(model: String) {
+        viewModelScope.launch {
+            dataStore.saveModel(model)
+            irRemoteManager.setModel(model)
         }
     }
 }

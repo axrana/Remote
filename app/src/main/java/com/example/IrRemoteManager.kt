@@ -30,13 +30,22 @@ class IrRemoteManager(private val context: Context) {
 
     // Stateful protocol and state tracking
     private val protocol = GeneralAcProtocol(context)
+    private var currentModel = "ARRAH2E"
     private var currentState = AcState(
         power = false,
         temperature = 24,
         mode = AcMode.COOL,
         fan = FanSpeed.AUTO,
-        swing = false
+        swing = false,
+        timerHours = 0
     )
+
+    /**
+     * Sets the remote model to use for protocol building.
+     */
+    fun setModel(model: String) {
+        currentModel = model
+    }
 
     /**
      * Checks if the device has a physical infrared transmitter.
@@ -86,7 +95,7 @@ class IrRemoteManager(private val context: Context) {
      * Helper to transmit the current state.
      */
     private fun transmitCurrentState() {
-        val packet = protocol.buildPacket(currentState)
+        val packet = protocol.buildPacket(currentState, currentModel)
         val pulses = protocol.encodeBytes(packet)
         transmit(pulses)
     }
@@ -166,9 +175,10 @@ class IrRemoteManager(private val context: Context) {
     }
     
     /**
-     * Sends the Timer command.
+     * Sends the Timer command with specified hours.
      */
-    fun sendTimer() {
+    fun sendTimer(hours: Int) {
+        currentState = currentState.copy(timerHours = hours)
         transmitCurrentState()
     }
 }

@@ -132,6 +132,11 @@ fun AcRemoteScreen(
             modifier = Modifier.padding(top = 8.dp)
         )
 
+        ModelSelector(
+            selectedModel = state.model,
+            onModelSelected = { viewModel.setModel(it) }
+        )
+
         // Simulated AC LCD Display Panel
         LcdScreenPanel(state = state)
 
@@ -974,6 +979,71 @@ fun HardwareInfoCard(irManager: IrRemoteManager) {
                     style = MaterialTheme.typography.bodySmall.copy(
                         color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
                     )
+                )
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun ModelSelector(
+    selectedModel: String,
+    onModelSelected: (String) -> Unit
+) {
+    var expanded by remember { mutableStateOf(false) }
+    val models = listOf("AR-RAH2E", "AR-REB1E", "AR-RY4", "AR-REW4E", "AR-DB1", "AR-JW2")
+    
+    Box(contentAlignment = Alignment.Center) {
+        InputChip(
+            selected = true,
+            onClick = { expanded = true },
+            label = {
+                Text(
+                    text = "Remote Model: $selectedModel",
+                    style = MaterialTheme.typography.labelMedium.copy(
+                        fontWeight = FontWeight.SemiBold,
+                        color = MaterialTheme.colorScheme.onSecondaryContainer
+                    )
+                )
+            },
+            trailingIcon = {
+                Icon(
+                    imageVector = Icons.Rounded.ArrowDropDown,
+                    contentDescription = "Select Model",
+                    tint = MaterialTheme.colorScheme.onSecondaryContainer
+                )
+            },
+            colors = InputChipDefaults.inputChipColors(
+                selectedContainerColor = MaterialTheme.colorScheme.secondaryContainer
+            )
+        )
+        
+        DropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { expanded = false },
+            modifier = Modifier.background(MaterialTheme.colorScheme.surface)
+        ) {
+            models.forEach { model ->
+                val cleanModel = model.replace("-", "")
+                DropdownMenuItem(
+                    text = { 
+                        Text(
+                            text = model,
+                            style = MaterialTheme.typography.bodyLarge
+                        ) 
+                    },
+                    onClick = {
+                        onModelSelected(cleanModel)
+                        expanded = false
+                    },
+                    leadingIcon = {
+                        Icon(
+                            imageVector = Icons.Rounded.Sync,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.primary
+                        )
+                    }
                 )
             }
         }

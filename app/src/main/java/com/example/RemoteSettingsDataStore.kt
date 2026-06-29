@@ -24,6 +24,7 @@ class RemoteSettingsDataStore(private val context: Context) {
         val KEY_TURBO_STATE = booleanPreferencesKey("turbo_state")
         val KEY_SLEEP_STATE = booleanPreferencesKey("sleep_state")
         val KEY_TIMER_HOURS = intPreferencesKey("timer_hours")
+        val KEY_MODEL = stringPreferencesKey("model")
     }
 
     /**
@@ -37,7 +38,8 @@ class RemoteSettingsDataStore(private val context: Context) {
         val swingState: Boolean,
         val turboState: Boolean,
         val sleepState: Boolean,
-        val timerHours: Int
+        val timerHours: Int,
+        val model: String
     )
 
     /**
@@ -52,7 +54,8 @@ class RemoteSettingsDataStore(private val context: Context) {
             swingState = preferences[KEY_SWING_STATE] ?: false,
             turboState = preferences[KEY_TURBO_STATE] ?: false,
             sleepState = preferences[KEY_SLEEP_STATE] ?: false,
-            timerHours = preferences[KEY_TIMER_HOURS] ?: 0
+            timerHours = preferences[KEY_TIMER_HOURS] ?: 0,
+            model = preferences[KEY_MODEL] ?: "ARRAH2E"
         )
     }
 
@@ -102,6 +105,12 @@ class RemoteSettingsDataStore(private val context: Context) {
     suspend fun saveTimerHours(hours: Int) {
         context.dataStore.edit { preferences ->
             preferences[KEY_TIMER_HOURS] = hours
+        }
+    }
+
+    suspend fun saveModel(model: String) {
+        context.dataStore.edit { preferences ->
+            preferences[KEY_MODEL] = model
         }
     }
 }
